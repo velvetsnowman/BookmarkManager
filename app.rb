@@ -2,9 +2,10 @@ require 'sinatra/base'
 require 'sinatra/flash'
 require 'uri'
 require './lib/bookmark.rb'
-
+#this is a bookmark manager
 class BookmarkManager < Sinatra::Base
   enable :sessions
+  register Sinatra::Flash
 
   get '/bookmarks' do
     @bookmarks = Bookmark.all
@@ -16,11 +17,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks' do
-    if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
-      Bookmark.create(url: params['url'])
-    else
-      flash[:notice] = "That is not a valid website!"
-    end
+    flash[:notice] = "That is not a valid website!" unless Bookmark.create(url: params['url'])
     redirect '/bookmarks'
   end
 
