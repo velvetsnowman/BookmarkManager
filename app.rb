@@ -12,7 +12,7 @@ class BookmarkManager < Sinatra::Base
   get '/' do
     redirect '/bookmarks'
   end
-  
+
   get '/bookmarks' do
     @bookmarks = Bookmark.all
     erb(:index)
@@ -25,6 +25,11 @@ class BookmarkManager < Sinatra::Base
   post '/bookmarks' do
     flash[:notice] = 'That is not a valid website!' unless Bookmark.create(url: params['url'], title: params['title'])
     redirect '/bookmarks'
+  end
+
+  post '/bookmarks/:id/delete' do
+    Bookmark.delete("#{params['id']}")
+    redirect '/'
   end
 
   run! if app_file == $PROGRAM_NAME
