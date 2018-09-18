@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'sinatra/flash'
 require 'uri'
 require './lib/bookmark.rb'
+require './database_connection_setup.rb'
 # this is a bookmark manager
 class BookmarkManager < Sinatra::Base
   enable :sessions
