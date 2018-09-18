@@ -10,10 +10,10 @@
         <input type="hidden" name="id" value ="<%= bookmark.id %>"/>
         <input type="submit" value="Delete" />
       </form>
-      <form action="/bookmarks/<%= bookmark.id %>/delete" method="post">
-        <input type='hidden' name='_method' value='DELETE'/>
+      <form action="/bookmarks/<%= bookmark.id %>/edit" method="patch">
+        <!-- <input type='hidden' name='_method' value='EDIT'/> -->
         <input type="hidden" name="id" value ="<%= bookmark.id %>"/>
-        <input type="submit" value="Delete" />
+        <input type="submit" value="EDIT" />
       </form>
     </li>
   <% end %>

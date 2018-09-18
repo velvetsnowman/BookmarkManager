@@ -18,6 +18,7 @@ class Bookmark
                  end
 
     result = connection.exec('SELECT * FROM bookmarks')
+    puts result
     result.map { |bookmark| Bookmark.new(bookmark['id'], bookmark['url'], bookmark['title']) }
   end
 
@@ -40,6 +41,17 @@ class Bookmark
                  end
     connection.exec("DELETE FROM bookmarks WHERE id = #{id}")
   end
+
+  def self.update(title, url, id)
+    connection = if ENV['ENVIRONMENT'] == 'test'
+                   PG.connect(dbname: 'bookmark_manager_test')
+                 else
+                   PG.connect(dbname: 'bookmark_manager')
+                 end
+    result = connection.exec("UPDATE bookmarks SET url = '#{url}', title = '#{title}' WHERE id = #{id} RETURNING id, url, title;")
+    Bookmark.new(result.first['id'], result.first['url'], result.first['title'])
+  end
+
 
   def ==(other)
     @id = other.id
